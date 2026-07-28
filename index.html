@@ -52,6 +52,95 @@
         ::-webkit-scrollbar-thumb { background: #262626; }
         ::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
 
+        /* ========================================== */
+        /* PANTALLA DE CARGA (PRELOADER)              */
+        /* ========================================== */
+        #pantalla-carga {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #030303;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+        }
+
+        .ocultar-carga {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .logo-carga {
+            animation: latido 2s infinite ease-in-out;
+        }
+
+        @keyframes latido {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        .diamantes-carga {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .diamante {
+            opacity: 0.2;
+            animation: brillar 1.5s infinite;
+        }
+        
+        .diamante:nth-child(1) { animation-delay: 0.0s; }
+        .diamante:nth-child(2) { animation-delay: 0.2s; }
+        .diamante:nth-child(3) { animation-delay: 0.4s; }
+        .diamante:nth-child(4) { animation-delay: 0.6s; }
+        .diamante:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes brillar {
+            0%, 100% { opacity: 0.2; text-shadow: none; }
+            50% { opacity: 1; text-shadow: 0 0 12px rgba(185, 28, 28, 0.9); }
+        }
+
+        /* ========================================== */
+        /* ANIMACIÓN MASK REVEAL (GLOBAL)             */
+        /* ========================================== */
+        .reveal-mask {
+            overflow: hidden;
+            display: block;
+            width: 100%;
+        }
+        .reveal-mask.inline-mask {
+            display: inline-block;
+            width: auto;
+            vertical-align: top;
+        }
+        .reveal-item {
+            display: block;
+            transform: translateY(110%);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+            height: 100%;
+        }
+        
+        /* Solo se activan las animaciones cuando el body tiene la clase 'page-ready' */
+        .page-ready .reveal-mask.in-view > .reveal-item {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Tiempos de retraso en cascada */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+        .delay-6 { transition-delay: 0.6s; }
+        /* ========================================== */
+
         /* Textura de Ruido (Grunge profesional) */
         .noise-bg {
             position: fixed;
@@ -194,6 +283,25 @@
 </head>
 
 <body>
+
+<!-- PANTALLA DE CARGA (PRELOADER) -->
+<div id="pantalla-carga">
+    <!-- Puedes cambiar este icono por una etiqueta <img> con tu propia calavera blanca -->
+    <i class="fa-solid fa-skull logo-carga text-bone text-6xl md:text-7xl mb-6"></i>
+    
+    <!-- Animación de diamantes en color sangre -->
+    <div class="diamantes-carga font-mono text-blood text-sm">
+        <span class="diamante">◆</span>
+        <span class="diamante">◆</span>
+        <span class="diamante">◆</span>
+        <span class="diamante">◆</span>
+        <span class="diamante">◆</span>
+    </div>
+
+    <h2 class="font-oswald text-2xl uppercase tracking-widest text-bone">HIPSO TATTOO</h2>
+    <p class="font-mono text-xs uppercase tracking-widest text-gray-500 mt-2">Cargando Tinta...</p>
+</div>
+
 <div class="noise-bg"></div>
 
 <!-- NAVBAR -->
@@ -230,7 +338,6 @@
 <!-- HERO SECTION -->
 <header class="relative min-h-screen flex items-center pt-20 border-b-4 border-ash">
   <div class="absolute inset-0 z-0">
-    <!-- Imagen de fondo oscura y contrastada -->
     <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&w=1920&q=80" 
          alt="Fondo Tatuaje" 
          class="w-full h-full object-cover img-bw opacity-40">
@@ -239,28 +346,47 @@
 
   <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
     <div class="max-w-3xl">
-      <p class="font-mono text-blood font-bold tracking-[0.3em] mb-4 text-sm md:text-base uppercase">Concepción, Chile // Agenda Abierta</p>
       
-      <!-- TÍTULO EN ESPAÑOL ACTUALIZADO -->
-      <h2 class="font-oswald text-6xl sm:text-8xl md:text-[8rem] font-black uppercase leading-[0.85] tracking-tighter mb-6 text-bone">
-        SANGRE <br>
-        <span class="text-transparent" style="-webkit-text-stroke: 2px #e5e5e5;">Y</span> <br>
-        TINTA
+      <!-- SUBTÍTULO -->
+      <span class="reveal-mask inline-mask w-full">
+        <p class="font-mono text-blood font-bold tracking-[0.3em] mb-4 text-sm md:text-base uppercase reveal-item delay-1">
+          Concepción, Chile // Agenda Abierta
+        </p>
+      </span>
+      
+      <!-- TÍTULO -->
+      <h2 class="font-oswald text-6xl sm:text-8xl md:text-[8rem] font-black uppercase leading-[0.85] tracking-tighter mb-6 text-bone flex flex-col">
+        <span class="reveal-mask">
+          <span class="reveal-item delay-2">SANGRE</span>
+        </span>
+        <span class="reveal-mask">
+          <span class="reveal-item delay-3 text-transparent" style="-webkit-text-stroke: 2px #e5e5e5;">Y</span>
+        </span>
+        <span class="reveal-mask">
+          <span class="reveal-item delay-4">TINTA</span>
+        </span>
       </h2>
       
-      <p class="font-montserrat text-lg text-gray-400 font-medium mb-10 max-w-xl border-l-4 border-blood pl-4">
-        Estudio privado de arte corporal. Diseños de autor, higiene clínica y precisión milimétrica. Deja tu marca.
-      </p>
+      <!-- PÁRRAFO -->
+      <span class="reveal-mask w-full">
+        <p class="font-montserrat text-lg text-gray-400 font-medium mb-10 max-w-xl border-l-4 border-blood pl-4 reveal-item delay-5">
+          Estudio privado de arte corporal. Diseños de autor, higiene clínica y precisión milimétrica. Deja tu marca.
+        </p>
+      </span>
 
-      <div class="flex flex-col sm:flex-row gap-6">
-        <a href="#agendar" class="btn-metal btn-solid-blood text-center">AGENDAR EVALUACIÓN</a>
-        <a href="#disciplinas" class="btn-metal text-center">VER TÉCNICAS</a>
-      </div>
+      <!-- BOTONES -->
+      <span class="reveal-mask w-full">
+        <div class="flex flex-col sm:flex-row gap-6 reveal-item delay-6">
+          <a href="#agendar" class="btn-metal btn-solid-blood text-center">AGENDAR EVALUACIÓN</a>
+          <a href="#disciplinas" class="btn-metal text-center">VER TÉCNICAS</a>
+        </div>
+      </span>
+
     </div>
   </div>
 </header>
 
-<!-- MARQUEE DIVIDER - TOTALMENTE RECTO -->
+<!-- MARQUEE DIVIDER -->
 <div class="marquee-container mt-8 shadow-[0_0_20px_rgba(185,28,28,0.3)]">
     <div class="marquee-content">
         // NO PAIN NO GAIN // ARTE EN PIEL // HIPSO TATTOO // CONCEPCIÓN CENTRO // DISEÑOS DE AUTOR // NO PAIN NO GAIN // ARTE EN PIEL // HIPSO TATTOO // CONCEPCIÓN CENTRO // DISEÑOS DE AUTOR // 
@@ -272,82 +398,108 @@
   <!-- EL ESTUDIO -->
   <section id="estudio" class="py-32 relative">
     <div class="max-w-7xl mx-auto px-6">
+      
       <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-ash pb-6">
         <div>
-            <h3 class="font-mono text-blood font-bold tracking-[0.2em] mb-2 uppercase">Filosofía</h3>
-            <h2 class="font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter">El Estudio</h2>
+            <div class="reveal-mask">
+                <h3 class="reveal-item delay-1 font-mono text-blood font-bold tracking-[0.2em] mb-2 uppercase">Filosofía</h3>
+            </div>
+            <div class="reveal-mask">
+                <h2 class="reveal-item delay-2 font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter">El Estudio</h2>
+            </div>
         </div>
-        <p class="font-montserrat text-gray-400 max-w-sm text-right hidden md:block">
-            Tucapel 391 Of. A.<br>No somos comerciales, somos creadores.
-        </p>
+        <div class="reveal-mask hidden md:block">
+            <p class="reveal-item delay-3 font-montserrat text-gray-400 max-w-sm text-right">
+                Tucapel 391 Of. A.<br>No somos comerciales, somos creadores.
+            </p>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Card 1 -->
-        <div class="bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group">
-            <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">01 // El Artista</h4>
-            <p class="text-gray-400 text-sm leading-relaxed font-medium">
-                Especialista en adaptar cada proyecto a la anatomía del cliente con manejo experto de múltiples disciplinas técnicas. Dedicación exclusiva.
-            </p>
+        <div class="reveal-mask h-full w-full">
+            <div class="reveal-item delay-2 bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group h-full">
+                <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">01 // El Artista</h4>
+                <p class="text-gray-400 text-sm leading-relaxed font-medium">
+                    Especialista en adaptar cada proyecto a la anatomía del cliente con manejo experto de múltiples disciplinas técnicas. Dedicación exclusiva.
+                </p>
+            </div>
         </div>
         
         <!-- Card 2 -->
-        <div class="bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group">
-            <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">02 // Diversidad</h4>
-            <p class="text-gray-400 text-sm leading-relaxed font-medium">
-                Trabajamos proyectos Fine Line, Blackwork, Neotradicional, Escala de Grises, Geometría y Coberturas personalizadas. Sin límites creativos.
-            </p>
+        <div class="reveal-mask h-full w-full">
+            <div class="reveal-item delay-3 bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group h-full">
+                <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">02 // Diversidad</h4>
+                <p class="text-gray-400 text-sm leading-relaxed font-medium">
+                    Trabajamos proyectos Fine Line, Blackwork, Neotradicional, Escala de Grises, Geometría y Coberturas personalizadas. Sin límites creativos.
+                </p>
+            </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group">
-            <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">03 // Higiene</h4>
-            <p class="text-gray-400 text-sm leading-relaxed font-medium">
-                Atención dedicada con estándares higiénicos de nivel quirúrgico. Agujas estériles, material desechable, entregando seguridad en cada sesión.
-            </p>
+        <div class="reveal-mask h-full w-full">
+            <div class="reveal-item delay-4 bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group h-full">
+                <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">03 // Higiene</h4>
+                <p class="text-gray-400 text-sm leading-relaxed font-medium">
+                    Atención dedicada con estándares higiénicos de nivel quirúrgico. Agujas estériles, material desechable, entregando seguridad en cada sesión.
+                </p>
+            </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <!-- TÉCNICAS / DISCIPLINAS -->
   <section id="disciplinas" class="py-32 bg-ash/10">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter text-center mb-20">
-        Disciplinas
-      </h2>
+      
+      <div class="reveal-mask mb-20">
+          <h2 class="reveal-item delay-1 font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter text-center">
+            Disciplinas
+          </h2>
+      </div>
 
+      <!-- Notar que las divisiones (bordes) ya estarán ahí, y el contenido sube a través de ellas. Da un look muy profesional -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border-2 border-ash">
         <!-- Item -->
-        <div class="p-10 border-b-2 md:border-r-2 md:border-b-0 border-ash hover:bg-blood hover:text-void transition-colors group">
-            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Fine Line</h3>
-            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
-                Trazos finos de precisión, tipografía sutil y composiciones elegantes. Minimalismo llevado al límite.
-            </p>
+        <div class="reveal-mask border-b-2 md:border-r-2 md:border-b-0 border-ash">
+            <div class="reveal-item delay-1 p-10 hover:bg-blood hover:text-void transition-colors group h-full">
+                <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Fine Line</h3>
+                <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                    Trazos finos de precisión, tipografía sutil y composiciones elegantes. Minimalismo llevado al límite.
+                </p>
+            </div>
         </div>
         
         <!-- Item -->
-        <div class="p-10 border-b-2 border-ash hover:bg-blood hover:text-void transition-colors group">
-            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Blackwork</h3>
-            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
-                Alto contraste, sombreado suave escala de grises y bloques de tinta sólida. Impacto visual garantizado.
-            </p>
+        <div class="reveal-mask border-b-2 border-ash">
+            <div class="reveal-item delay-2 p-10 hover:bg-blood hover:text-void transition-colors group h-full">
+                <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Blackwork</h3>
+                <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                    Alto contraste, sombreado suave escala de grises y bloques de tinta sólida. Impacto visual garantizado.
+                </p>
+            </div>
         </div>
 
         <!-- Item -->
-        <div class="p-10 border-b-2 md:border-b-0 md:border-r-2 border-ash hover:bg-blood hover:text-void transition-colors group">
-            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Neotradicional</h3>
-            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
-                Líneas de varios calibres, volumen e ilustración clásica reinventada. Fuerza y color saturado.
-            </p>
+        <div class="reveal-mask border-b-2 md:border-b-0 md:border-r-2 border-ash">
+            <div class="reveal-item delay-3 p-10 hover:bg-blood hover:text-void transition-colors group h-full">
+                <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Neotradicional</h3>
+                <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                    Líneas de varios calibres, volumen e ilustración clásica reinventada. Fuerza y color saturado.
+                </p>
+            </div>
         </div>
 
         <!-- Item -->
-        <div class="p-10 hover:bg-blood hover:text-void transition-colors group">
-            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Cover-Ups</h3>
-            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
-                Cobertura de tatuajes antiguos y reestructuración gráfica. Renace tu piel con piezas definitivas.
-            </p>
+        <div class="reveal-mask">
+            <div class="reveal-item delay-4 p-10 hover:bg-blood hover:text-void transition-colors group h-full">
+                <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Cover-Ups</h3>
+                <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                    Cobertura de tatuajes antiguos y reestructuración gráfica. Renace tu piel con piezas definitivas.
+                </p>
+            </div>
         </div>
       </div>
     </div>
@@ -358,112 +510,133 @@
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-5 gap-16">
       
       <div class="lg:col-span-2">
-        <h2 class="font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 leading-none">
-          PREPÁRATE<br>
-          <span class="text-transparent" style="-webkit-text-stroke: 2px #b91c1c;">PARA LA AGUJA</span>
-        </h2>
-        <p class="font-montserrat text-gray-400 mb-8 border-l-4 border-blood pl-4">
-          Un buen tatuaje empieza antes de pisar el estudio. Sigue este protocolo para asegurar resultados impecables.
-        </p>
+        <div class="reveal-mask">
+            <h2 class="reveal-item delay-1 font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 leading-none">
+              PREPÁRATE<br>
+              <span class="text-transparent" style="-webkit-text-stroke: 2px #b91c1c;">PARA LA AGUJA</span>
+            </h2>
+        </div>
+        <div class="reveal-mask">
+            <p class="reveal-item delay-2 font-montserrat text-gray-400 mb-8 border-l-4 border-blood pl-4">
+              Un buen tatuaje empieza antes de pisar el estudio. Sigue este protocolo para asegurar resultados impecables.
+            </p>
+        </div>
       </div>
 
       <div class="lg:col-span-3">
         <!-- Acordeón 1 -->
-        <div class="faq-item bg-void">
-            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">01. DEFINIR ESTILO</span>
-                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
-            </button>
-            <div class="faq-content px-6 bg-ash/10">
-                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
-                    Lo esencial es tener claro el estilo, más tener una idea de lo que quieres llevar a cabo. Puedes agendar una cita de diseño si no estás claro; ejemplos: escala de grises, minimalismo, full color, etc.
-                </p>
+        <div class="reveal-mask w-full">
+            <div class="reveal-item delay-1 faq-item bg-void">
+                <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                    <span class="font-oswald font-bold text-2xl uppercase tracking-wider">01. DEFINIR ESTILO</span>
+                    <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+                </button>
+                <div class="faq-content px-6 bg-ash/10">
+                    <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                        Lo esencial es tener claro el estilo, más tener una idea de lo que quieres llevar a cabo. Puedes agendar una cita de diseño si no estás claro; ejemplos: escala de grises, minimalismo, full color, etc.
+                    </p>
+                </div>
             </div>
         </div>
 
         <!-- Acordeón 2 -->
-        <div class="faq-item bg-void">
-            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">02. DEFINIR DISEÑO</span>
-                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
-            </button>
-            <div class="faq-content px-6 bg-ash/10">
-                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
-                    A mayor información que quieras entregar en la pieza, mayor podría ser el tamaño. Si tu idea no es tener un tatuaje gigante, la idea debe ser acotada para evitar que los detalles se pierdan con el tiempo.
-                </p>
+        <div class="reveal-mask w-full">
+            <div class="reveal-item delay-2 faq-item bg-void">
+                <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                    <span class="font-oswald font-bold text-2xl uppercase tracking-wider">02. DEFINIR DISEÑO</span>
+                    <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+                </button>
+                <div class="faq-content px-6 bg-ash/10">
+                    <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                        A mayor información que quieras entregar en la pieza, mayor podría ser el tamaño. Si tu idea no es tener un tatuaje gigante, la idea debe ser acotada para evitar que los detalles se pierdan con el tiempo.
+                    </p>
+                </div>
             </div>
         </div>
 
         <!-- Acordeón 3 -->
-        <div class="faq-item bg-void">
-            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">03. LAS SESIONES</span>
-                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
-            </button>
-            <div class="faq-content px-6 bg-ash/10">
-                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
-                    Dependiendo del tamaño, hay piezas de una sola sesión. Proyectos grandes requieren coordinación (líneas primero, luego sombras o color). Ven descansado y bien alimentado.
-                </p>
+        <div class="reveal-mask w-full">
+            <div class="reveal-item delay-3 faq-item bg-void">
+                <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                    <span class="font-oswald font-bold text-2xl uppercase tracking-wider">03. LAS SESIONES</span>
+                    <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+                </button>
+                <div class="faq-content px-6 bg-ash/10">
+                    <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                        Dependiendo del tamaño, hay piezas de una sola sesión. Proyectos grandes requieren coordinación (líneas primero, luego sombras o color). Ven descansado y bien alimentado.
+                    </p>
+                </div>
             </div>
         </div>
 
         <!-- Acordeón 4 -->
-        <div class="faq-item bg-void">
-            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">04. CUIDADOS POST</span>
-                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
-            </button>
-            <div class="faq-content px-6 bg-ash/10">
-                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
-                    Tu tatuaje es una herida abierta. Lavado con jabón neutro, crema cicatrizante especializada y CERO sol o piscina. Te daremos las instrucciones detalladas al terminar.
-                </p>
+        <div class="reveal-mask w-full">
+            <div class="reveal-item delay-4 faq-item bg-void">
+                <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                    <span class="font-oswald font-bold text-2xl uppercase tracking-wider">04. CUIDADOS POST</span>
+                    <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+                </button>
+                <div class="faq-content px-6 bg-ash/10">
+                    <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                        Tu tatuaje es una herida abierta. Lavado con jabón neutro, crema cicatrizante especializada y CERO sol o piscina. Te daremos las instrucciones detalladas al terminar.
+                    </p>
+                </div>
             </div>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- UBICACIÓN & RESERVA (Bloque final de impacto) -->
+  <!-- UBICACIÓN & RESERVA -->
   <section id="agendar" class="border-t-4 border-blood bg-ash/5">
     <div class="grid grid-cols-1 lg:grid-cols-2">
       
       <!-- Mapa e Info -->
       <div class="p-12 lg:p-24 flex flex-col justify-center border-b-2 lg:border-b-0 lg:border-r-2 border-ash">
-        <h2 class="font-oswald text-6xl font-black uppercase tracking-tighter mb-8">
-          EL <span class="text-blood">TERRITORIO</span>
-        </h2>
+        <div class="reveal-mask">
+            <h2 class="reveal-item delay-1 font-oswald text-6xl font-black uppercase tracking-tighter mb-8">
+              EL <span class="text-blood">TERRITORIO</span>
+            </h2>
+        </div>
         
-        <div class="mb-10 font-mono text-gray-400 space-y-4">
-            <p class="text-lg text-bone font-bold uppercase"><i class="fa-solid fa-location-crosshairs text-blood mr-2"></i> Tucapel 391, Oficina A</p>
-            <p>Concepción Centro, Biobío</p>
-            <hr class="border-ash my-4">
-            <p class="text-lg text-bone font-bold uppercase"><i class="fa-solid fa-clock text-blood mr-2"></i> Horario de Sangre</p>
-            <p>Lun - Vie: 11:00 a 19:30<br>Sábados: Previa cita</p>
+        <div class="reveal-mask w-full">
+            <div class="reveal-item delay-2 mb-10 font-mono text-gray-400 space-y-4">
+                <p class="text-lg text-bone font-bold uppercase"><i class="fa-solid fa-location-crosshairs text-blood mr-2"></i> Tucapel 391, Oficina A</p>
+                <p>Concepción Centro, Biobío</p>
+                <hr class="border-ash my-4">
+                <p class="text-lg text-bone font-bold uppercase"><i class="fa-solid fa-clock text-blood mr-2"></i> Horario de Sangre</p>
+                <p>Lun - Vie: 11:00 a 19:30<br>Sábados: Previa cita</p>
+            </div>
         </div>
 
         <!-- Mapa Grayscale -->
-        <div class="w-full h-64 border-2 border-ash filter grayscale contrast-125 hover:grayscale-0 transition-all duration-500">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3193.858852309105!2d-73.050412!3d-36.827123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9669b5d2e742e4d9%3A0x8ad0419db6e8b233!2sTucapel%20391%2C%20Concepci%C3%B3n%2C%20B%C3%ADo%20B%C3%ADo!5e0!3m2!1ses!2scl!4v1716492000000!5m2!1ses!2scl"
-              title="Ubicación Hipso Tattoo"
-              class="w-full h-full border-0"
-              allowfullscreen="" loading="lazy">
-            </iframe>
+        <div class="reveal-mask w-full h-64 border-2 border-ash">
+            <div class="reveal-item delay-3 filter grayscale contrast-125 hover:grayscale-0 transition-all duration-500 w-full h-full">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3193.858852309105!2d-73.050412!3d-36.827123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9669b5d2e742e4d9%3A0x8ad0419db6e8b233!2sTucapel%20391%2C%20Concepci%C3%B3n%2C%20B%C3%ADo%20B%C3%ADo!5e0!3m2!1ses!2scl!4v1716492000000!5m2!1ses!2scl"
+                  title="Ubicación Hipso Tattoo"
+                  class="w-full h-full border-0"
+                  allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
         </div>
       </div>
 
       <!-- Cal.com Embed -->
-      <div class="p-4 lg:p-12 bg-void relative">
-         <div class="absolute inset-0 bg-blood/5 pointer-events-none"></div>
-         <h3 class="font-oswald text-3xl font-bold uppercase text-center mb-6 text-bone tracking-wider relative z-10">
-            Bloquea tu Sesión
-         </h3>
-         <!-- CAL.COM WIDGET -->
-         <div id="my-cal-inline" class="w-full h-[650px] relative z-10 border-2 border-ash" 
-              data-cal-link="martin-bustamante-y8o12p/30min" 
-              data-cal-namespace="evaluacion"
-              data-cal-config='{"layout":"month_view","theme":"dark"}'>
-         </div>
+      <div class="reveal-mask w-full h-full">
+          <div class="reveal-item delay-4 p-4 lg:p-12 bg-void relative h-full">
+             <div class="absolute inset-0 bg-blood/5 pointer-events-none"></div>
+             <h3 class="font-oswald text-3xl font-bold uppercase text-center mb-6 text-bone tracking-wider relative z-10">
+                Bloquea tu Sesión
+             </h3>
+             <!-- CAL.COM WIDGET -->
+             <div id="my-cal-inline" class="w-full h-[650px] relative z-10 border-2 border-ash" 
+                  data-cal-link="martin-bustamante-y8o12p/30min" 
+                  data-cal-namespace="evaluacion"
+                  data-cal-config='{"layout":"month_view","theme":"dark"}'>
+             </div>
+          </div>
       </div>
 
     </div>
@@ -480,6 +653,41 @@
 </footer>
 
 <script>
+  // ==========================================
+  // LÓGICA DE PRELOADER Y ANIMACIONES AL SCROLL
+  // ==========================================
+  window.addEventListener('load', function() {
+      const loader = document.getElementById('pantalla-carga');
+      
+      // Simulamos carga (1.5 segundos). Luego ocultamos la pantalla negra para ver la foto.
+      setTimeout(() => {
+          loader.classList.add('ocultar-carga');
+          
+          // Esperamos 600ms más (tiempo que tarda en desvanecerse la pantalla negra)
+          // Y le damos la señal al 'body' para que las letras comiencen a emerger fluidamente.
+          setTimeout(() => {
+              document.body.classList.add('page-ready');
+          }, 600); 
+          
+      }, 1500); 
+  });
+
+  // Intersection Observer para detectar cuando haces scroll y revelar los elementos
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          // Si el elemento entra en la pantalla...
+          if (entry.isIntersecting) {
+              entry.target.classList.add('in-view'); // Activa la animación
+              observer.unobserve(entry.target); // Solo se anima una vez para no saturar al usuario
+          }
+      });
+  }, { threshold: 0.1 }); // Se activa cuando el 10% del elemento es visible
+
+  // Aplicamos el observador a todas las máscaras de la página
+  document.querySelectorAll('.reveal-mask').forEach(el => {
+      observer.observe(el);
+  });
+
   // Navbar Background on Scroll
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
