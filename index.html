@@ -20,16 +20,15 @@
             theme: {
                 extend: {
                     colors: {
-                        studio: '#161b18', /* Fondo principal: Verde agrisado muy oscuro */
-                        panel: '#1f2622',  /* Fondo de tarjetas: Verde agrisado sutil */
-                        accent: '#62776a', /* Verde salvia ahumado para detalles y hovers */
-                        muted: '#8b9690',  /* Texto secundario con ligero tinte verdoso */
-                        bone: '#e0e6e2',   /* Texto principal blanco/hueso verdoso */
+                        studio: '#161b18', /* Verde agrisado muy oscuro */
+                        panel: '#1f2622',  /* Verde agrisado para tarjetas */
+                        accent: '#62776a', /* Verde salvia para detalles */
+                        muted: '#8b9690',  /* Texto secundario */
+                        bone: '#e0e6e2',   /* Texto principal blanco/hueso */
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
                         sans: ['"Inter"', 'sans-serif'],
-                        cinzel: ['"Cinzel"', 'serif'],
                     }
                 }
             }
@@ -52,9 +51,7 @@
         ::-webkit-scrollbar-thumb { background: #37443d; }
         ::-webkit-scrollbar-thumb:hover { background: #62776a; }
 
-        /* ========================================== */
-        /* PANTALLA DE CARGA (PRELOADER)              */
-        /* ========================================== */
+        /* PANTALLA DE CARGA */
         #pantalla-carga {
             position: fixed;
             inset: 0;
@@ -68,104 +65,68 @@
             z-index: 999999;
             transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.5s;
         }
-
-        .ocultar-carga {
-            opacity: 0;
-            visibility: hidden;
-        }
-
+        .ocultar-carga { opacity: 0; visibility: hidden; }
         .spinner {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 1px solid rgba(224, 230, 226, 0.05);
-            border-top: 1px solid #62776a; /* Color de acento verde */
+            border-top: 1px solid #62776a;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* ========================================== */
-        /* ANIMACIÓN MASK REVEAL                      */
-        /* ========================================== */
-        .reveal-mask {
-            overflow: hidden;
-            display: block;
-            width: 100%;
-        }
-        .reveal-mask.inline-mask {
-            display: inline-block;
-            width: auto;
-            vertical-align: top;
-        }
+        /* ANIMACIÓN MASK REVEAL */
+        .reveal-mask { overflow: hidden; display: block; width: 100%; }
+        .reveal-mask.inline-mask { display: inline-block; width: auto; vertical-align: top; }
         .reveal-item {
-            display: block;
-            transform: translateY(110%);
-            opacity: 0;
+            display: block; transform: translateY(110%); opacity: 0;
             transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
             height: 100%;
         }
-        
-        .page-ready .reveal-mask.in-view > .reveal-item {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .page-ready .reveal-mask.in-view > .reveal-item { transform: translateY(0); opacity: 1; }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
 
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
-        .delay-5 { transition-delay: 0.5s; }
-
-        /* ========================================== */
-        /* COMPONENTES UI ESTILO GALERÍA              */
-        /* ========================================== */
-        
-        /* Navbar Centrada */
-        .navbar {
-            transition: all 0.5s ease;
-            background-color: transparent;
-            padding: 30px 0;
-        }
+        /* NAVBAR */
+        .navbar { transition: all 0.5s ease; background-color: transparent; padding: 30px 0; }
         .navbar.scrolled {
-            background-color: rgba(22, 27, 24, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            background-color: rgba(22, 27, 24, 0.95); backdrop-filter: blur(10px);
+            padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
         }
-
-        .nav-link {
-            position: relative;
-            padding-bottom: 4px;
-        }
+        .nav-link { position: relative; padding-bottom: 4px; }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: 0;
-            left: 50%;
-            background-color: #62776a; /* Acento verde salvia */
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
+            content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 50%;
+            background-color: #62776a; transition: all 0.3s ease; transform: translateX(-50%);
         }
-        .nav-link:hover::after {
-            width: 100%;
-        }
+        .nav-link:hover::after { width: 100%; }
 
-        /* Acordeón sutil */
-        .faq-item {
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+        /* ACORDEÓN */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+
+        /* ========================================== */
+        /* ESTILOS DEL CARRUSEL                       */
+        /* ========================================== */
+        .carousel-slide {
+            display: none;
+            animation: fadeEffect 0.8s ease-in-out;
         }
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
+        .carousel-slide.active {
+            display: grid;
         }
+        @keyframes fadeEffect {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .carousel-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            border: 1px solid #8b9690;
+            background-color: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .carousel-dot.active { background-color: #e0e6e2; border-color: #e0e6e2; }
     </style>
 
     <!-- Cal.com Embed Script -->
@@ -174,20 +135,15 @@
         let p = function (a, ar) { a.q.push(ar); };
         let d = C.document;
         C.Cal = C.Cal || function () {
-          let cal = C.Cal;
-          let ar = arguments;
+          let cal = C.Cal; let ar = arguments;
           if (!cal.q) { cal.q = []; }
           if (ar[0] === "init") {
-            let api = function () { p(api, arguments); };
-            let c = ar[1];
-            api.ns = {};
-            if (c) { cal.ns[c] = cal.ns[c] || api; }
-            return api;
+            let api = function () { p(api, arguments); }; let c = ar[1]; api.ns = {};
+            if (c) { cal.ns[c] = cal.ns[c] || api; } return api;
           }
           p(cal, ar);
         };
       })(window, "https://app.cal.com/embed/embed.js", "Cal");
-
       Cal("init", "evaluacion", {origin:"https://cal.com"});
       Cal.ns.evaluacion("ui", {"theme":"dark", "styles":{"body":{"background":"transparent"}}, "hideEventTypeDetails":false, "layout":"month_view"});
     </script>
@@ -203,32 +159,25 @@
 
 <!-- NAVBAR -->
 <nav id="navbar" class="navbar fixed top-0 w-full z-50 flex flex-col items-center">
-    
     <div class="text-muted text-xl mb-3 hover:text-accent transition-colors cursor-pointer">
-        <i class="fa-solid fa-leaf"></i> <!-- Cambié el ícono a algo más orgánico/botánico -->
+        <i class="fa-solid fa-leaf"></i>
     </div>
-
-    <a href="#" class="font-serif text-3xl md:text-4xl text-bone tracking-wide font-normal mb-5">
-        Hipso Tattoo
-    </a>
-
+    <a href="#" class="font-serif text-3xl md:text-4xl text-bone tracking-wide font-normal mb-5">Hipso Tattoo</a>
     <div class="hidden md:flex items-center gap-8 font-sans text-[10px] md:text-xs font-semibold tracking-widest uppercase text-muted">
         <a href="#estudio" class="nav-link hover:text-bone transition-colors">Estudio</a>
-        <a href="#disciplinas" class="nav-link hover:text-bone transition-colors">Disciplinas</a>
+        <a href="#portafolio" class="nav-link hover:text-bone transition-colors">Portafolio</a>
         <a href="#preparacion" class="nav-link hover:text-bone transition-colors">Info</a>
         <a href="#agendar" class="nav-link hover:text-bone transition-colors">Booking</a>
     </div>
-
-    <!-- Menú Móvil -->
     <button id="mobileBtn" class="md:hidden absolute right-6 top-10 text-muted hover:text-accent focus:outline-none transition-colors">
         <i class="fa-solid fa-bars text-xl"></i>
     </button>
 </nav>
 
-<!-- Mobile Menu Modal -->
+<!-- Mobile Menu -->
 <div id="mobileMenu" class="fixed inset-0 bg-studio z-40 hidden flex-col justify-center items-center gap-8 font-serif text-2xl text-bone">
     <a href="#estudio" class="hover:text-accent mobile-link transition-colors">Estudio</a>
-    <a href="#disciplinas" class="hover:text-accent mobile-link transition-colors">Disciplinas</a>
+    <a href="#portafolio" class="hover:text-accent mobile-link transition-colors">Portafolio</a>
     <a href="#preparacion" class="hover:text-accent mobile-link transition-colors">Info</a>
     <a href="#agendar" class="hover:text-accent mobile-link transition-colors">Booking</a>
 </div>
@@ -236,13 +185,10 @@
 <!-- HERO SECTION -->
 <header class="relative min-h-[85vh] flex items-center justify-center text-center pt-20">
     <div class="absolute inset-0 z-0">
-        <!-- Overlay del mismo color base para integrar bien la imagen -->
         <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&w=1920&q=80" 
-             alt="Fondo Tatuaje" 
-             class="w-full h-full object-cover grayscale opacity-20 mix-blend-overlay">
+             alt="Fondo Tatuaje" class="w-full h-full object-cover grayscale opacity-20 mix-blend-overlay">
         <div class="absolute inset-0 bg-gradient-to-t from-studio via-transparent to-studio"></div>
     </div>
-
     <div class="relative z-10 w-full px-6">
         <span class="reveal-mask inline-mask">
             <h2 class="reveal-item delay-2 font-serif text-3xl md:text-4xl text-bone font-light tracking-wide">
@@ -254,77 +200,94 @@
 
 <main>
 
-  <!-- DISCIPLINAS (TEXTO ELEGANTE) -->
-  <section id="disciplinas" class="py-24 bg-panel border-y border-[rgba(255,255,255,0.02)]">
-    <div class="max-w-5xl mx-auto px-6">
+  <!-- ========================================== -->
+  <!-- GALERÍA / CARRUSEL (BLOQUES NEGROS)        -->
+  <!-- ========================================== -->
+  <section id="portafolio" class="py-24 bg-studio border-y border-[rgba(255,255,255,0.02)]">
+    <div class="max-w-6xl mx-auto px-6">
       
-      <div class="reveal-mask mb-16 text-center">
+      <div class="reveal-mask mb-12 text-center">
           <h2 class="reveal-item delay-1 font-serif text-2xl md:text-3xl text-bone border-b border-accent inline-block pb-2 px-4">
-            Nuestras Disciplinas
+            Trabajos Recientes
           </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Tarjeta 1 -->
-        <div class="reveal-mask h-full">
-            <div class="reveal-item delay-1 text-center h-full p-10 bg-studio border border-[rgba(255,255,255,0.02)] hover:border-accent transition-colors flex flex-col justify-center">
-                <h3 class="font-serif text-xl text-bone font-light mb-4">Fine Line</h3>
-                <p class="font-sans text-sm text-muted font-light leading-relaxed">
-                    Trazos finos de precisión, tipografía sutil y composiciones elegantes.
-                </p>
-            </div>
-        </div>
-        
-        <!-- Tarjeta 2 -->
-        <div class="reveal-mask h-full">
-            <div class="reveal-item delay-2 text-center h-full p-10 bg-studio border border-[rgba(255,255,255,0.02)] hover:border-accent transition-colors flex flex-col justify-center">
-                <h3 class="font-serif text-xl text-bone font-light mb-4">Blackwork</h3>
-                <p class="font-sans text-sm text-muted font-light leading-relaxed">
-                    Alto contraste, sombreado suave y bloques de tinta sólida. Impacto visual.
-                </p>
-            </div>
-        </div>
+      <!-- Contenedor del Carrusel -->
+      <div class="reveal-mask w-full shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+          <div class="reveal-item delay-2 bg-panel w-full flex flex-col">
+              
+              <!-- Zona de Imágenes (Ahora solo bloques negros) -->
+              <div class="p-6 md:p-12 min-h-[450px] relative w-full overflow-hidden">
+                  
+                  <!-- SLIDE 1 (Layout Asimétrico) -->
+                  <div class="carousel-slide active grid-cols-1 md:grid-cols-3 gap-6 h-full items-center">
+                      <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                      <div class="flex flex-col gap-6 h-[400px]">
+                          <div class="h-1/2 border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                          <div class="h-1/2 border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                      </div>
+                      <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                  </div>
 
-        <!-- Tarjeta 3 -->
-        <div class="reveal-mask h-full">
-            <div class="reveal-item delay-3 text-center h-full p-10 bg-studio border border-[rgba(255,255,255,0.02)] hover:border-accent transition-colors flex flex-col justify-center">
-                <h3 class="font-serif text-xl text-bone font-light mb-4">Neotradicional</h3>
-                <p class="font-sans text-sm text-muted font-light leading-relaxed">
-                    Volumen, ilustración clásica reinventada y fuerza en cada línea.
-                </p>
-            </div>
-        </div>
+                  <!-- SLIDE 2 (Layout Simétrico de 3 columnas) -->
+                  <div class="carousel-slide grid-cols-1 md:grid-cols-3 gap-6 h-full items-center">
+                       <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                      <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                      <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                  </div>
+
+                  <!-- SLIDE 3 (Layout Asimétrico Invertido) -->
+                  <div class="carousel-slide grid-cols-1 md:grid-cols-3 gap-6 h-full items-center">
+                      <div class="flex flex-col gap-6 h-[400px]">
+                          <div class="h-1/2 border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                          <div class="h-1/2 border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                      </div>
+                      <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                      <div class="h-[400px] border-[3px] border-[#131715] bg-black shadow-lg"></div>
+                  </div>
+
+              </div>
+
+              <!-- Barra de Controles -->
+              <div class="bg-[#1b211e] border-t border-[rgba(255,255,255,0.03)] py-4 px-6 flex justify-center items-center gap-6 text-muted text-sm font-sans tracking-widest">
+                  <button onclick="prevSlide()" class="hover:text-bone transition cursor-pointer p-2">&lt;</button>
+                  <div class="flex gap-4 items-center">
+                      <button onclick="goToSlide(0)" class="carousel-dot active"></button>
+                      <button onclick="goToSlide(1)" class="carousel-dot"></button>
+                      <button onclick="goToSlide(2)" class="carousel-dot"></button>
+                  </div>
+                  <button onclick="nextSlide()" class="hover:text-bone transition cursor-pointer p-2">&gt;</button>
+                  <div class="w-px h-4 bg-muted mx-1 opacity-30"></div>
+                  <button id="playPauseBtn" onclick="togglePlay()" class="hover:text-bone transition cursor-pointer font-bold p-2 text-xs">||</button>
+              </div>
+
+          </div>
       </div>
+
     </div>
   </section>
 
   <!-- EL ESTUDIO / INFO -->
   <section id="estudio" class="py-32 relative bg-studio">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      
       <div class="reveal-mask mb-12">
           <h2 class="reveal-item delay-1 font-serif text-3xl text-bone font-light">El Estudio</h2>
       </div>
-
       <div class="reveal-mask mb-16">
           <p class="reveal-item delay-2 font-sans text-muted text-sm leading-loose max-w-2xl mx-auto font-light">
               Un espacio diseñado para la calma y la creatividad. Diseños de autor, higiene clínica estricta y atención dedicada en cada sesión. Adaptamos cada proyecto a la anatomía del cliente con manejo experto, sin importar si es un tatuaje nuevo o una cobertura.
           </p>
       </div>
-
     </div>
   </section>
 
   <!-- PREPARACIÓN (FAQ) -->
   <section id="preparacion" class="py-24 bg-panel border-y border-[rgba(255,255,255,0.02)]">
     <div class="max-w-3xl mx-auto px-6">
-      
       <div class="reveal-mask mb-16 text-center">
         <h2 class="reveal-item delay-1 font-serif text-3xl text-bone font-light">Información Importante</h2>
       </div>
-
       <div class="space-y-2">
-        <!-- Acordeón 1 -->
         <div class="reveal-mask w-full">
             <div class="reveal-item delay-1 faq-item">
                 <button class="w-full text-left py-6 flex justify-between items-center focus:outline-none group" onclick="toggleFaq(this)">
@@ -333,13 +296,11 @@
                 </button>
                 <div class="faq-content">
                     <p class="pb-6 font-sans text-muted text-sm font-light leading-relaxed">
-                        Lo esencial es tener claro el estilo (minimalismo, sombras, blackwork) y una idea acotada. A mayor información, mayor debe ser el tamaño para que los detalles no se pierdan con los años.
+                        Lo esencial es tener claro el estilo (minimalismo, sombras, blackwork) y una idea acotada. A mayor información, mayor debe ser el tamaño.
                     </p>
                 </div>
             </div>
         </div>
-
-        <!-- Acordeón 2 -->
         <div class="reveal-mask w-full">
             <div class="reveal-item delay-2 faq-item">
                 <button class="w-full text-left py-6 flex justify-between items-center focus:outline-none group" onclick="toggleFaq(this)">
@@ -353,8 +314,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Acordeón 3 -->
         <div class="reveal-mask w-full">
             <div class="reveal-item delay-3 faq-item border-none">
                 <button class="w-full text-left py-6 flex justify-between items-center focus:outline-none group" onclick="toggleFaq(this)">
@@ -369,36 +328,21 @@
             </div>
         </div>
       </div>
-
     </div>
   </section>
 
   <!-- UBICACIÓN & RESERVA -->
   <section id="agendar" class="py-32 bg-studio">
     <div class="max-w-4xl mx-auto px-6">
-      
       <div class="reveal-mask text-center mb-16">
-          <h2 class="reveal-item delay-1 font-serif text-3xl text-bone font-light mb-6">
-            Booking & Contacto
-          </h2>
-          <!-- TEXTO DE DIRECCIÓN -->
-          <p class="reveal-item delay-2 font-sans text-accent text-sm tracking-widest uppercase">
-            Tucapel 391
-          </p>
+          <h2 class="reveal-item delay-1 font-serif text-3xl text-bone font-light mb-6">Booking & Contacto</h2>
+          <p class="reveal-item delay-2 font-sans text-accent text-sm tracking-widest uppercase">Tucapel 391</p>
       </div>
-
-      <!-- Cal.com Embed -->
       <div class="reveal-mask w-full">
           <div class="reveal-item delay-3 w-full border border-[rgba(255,255,255,0.03)] rounded bg-panel p-2 shadow-lg">
-             <!-- CAL.COM WIDGET -->
-             <div id="my-cal-inline" class="w-full h-[600px]" 
-                  data-cal-link="martin-bustamante-y8o12p/30min" 
-                  data-cal-namespace="evaluacion"
-                  data-cal-config='{"layout":"month_view","theme":"dark"}'>
-             </div>
+             <div id="my-cal-inline" class="w-full h-[600px]" data-cal-link="martin-bustamante-y8o12p/30min" data-cal-namespace="evaluacion" data-cal-config='{"layout":"month_view","theme":"dark"}'></div>
           </div>
       </div>
-
     </div>
   </section>
 
@@ -414,14 +358,68 @@
 </footer>
 
 <script>
+  // LÓGICA DEL CARRUSEL
+  let currentSlide = 0;
+  let isPlaying = true;
+  let slideInterval;
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+
+  function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentSlide = index;
+  }
+
+  function nextSlide() {
+      let nextIndex = (currentSlide + 1) % slides.length;
+      showSlide(nextIndex);
+  }
+
+  function prevSlide() {
+      let prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prevIndex);
+  }
+
+  function goToSlide(index) {
+      showSlide(index);
+      resetInterval(); 
+  }
+
+  function togglePlay() {
+      if (isPlaying) {
+          clearInterval(slideInterval);
+          playPauseBtn.innerHTML = '&#9658;'; 
+      } else {
+          startInterval();
+          playPauseBtn.innerHTML = '||'; 
+      }
+      isPlaying = !isPlaying;
+  }
+
+  function startInterval() {
+      slideInterval = setInterval(nextSlide, 4000); 
+  }
+
+  function resetInterval() {
+      if (isPlaying) {
+          clearInterval(slideInterval);
+          startInterval();
+      }
+  }
+
+  startInterval();
+
   // LÓGICA DE PRELOADER Y ANIMACIONES AL SCROLL
   window.addEventListener('load', function() {
       const loader = document.getElementById('pantalla-carga');
       setTimeout(() => {
           loader.classList.add('ocultar-carga');
-          setTimeout(() => {
-              document.body.classList.add('page-ready');
-          }, 800); 
+          setTimeout(() => { document.body.classList.add('page-ready'); }, 800); 
       }, 1000); 
   });
 
@@ -433,42 +431,30 @@
           }
       });
   }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal-mask').forEach(el => {
-      observer.observe(el);
-  });
+  document.querySelectorAll('.reveal-mask').forEach(el => { observer.observe(el); });
 
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
+    if (window.scrollY > 50) { navbar.classList.add('scrolled'); } 
+    else { navbar.classList.remove('scrolled'); }
   });
 
   const mobileBtn = document.getElementById('mobileBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileLinks = document.querySelectorAll('.mobile-link');
-  
   function toggleMobileMenu() {
       mobileMenu.classList.toggle('hidden');
       mobileMenu.classList.toggle('flex');
       const icon = mobileBtn.querySelector('i');
-      if(mobileMenu.classList.contains('hidden')) {
-          icon.classList.replace('fa-xmark', 'fa-bars');
-      } else {
-          icon.classList.replace('fa-bars', 'fa-xmark');
-      }
+      if(mobileMenu.classList.contains('hidden')) { icon.classList.replace('fa-xmark', 'fa-bars'); } 
+      else { icon.classList.replace('fa-bars', 'fa-xmark'); }
   }
-  
   mobileBtn.addEventListener('click', toggleMobileMenu);
   mobileLinks.forEach(link => link.addEventListener('click', toggleMobileMenu));
 
   function toggleFaq(btn) {
     const content = btn.nextElementSibling;
     const icon = btn.querySelector('i');
-    
     if (content.style.maxHeight) {
         content.style.maxHeight = null;
         icon.style.transform = 'rotate(0deg)';
@@ -476,15 +462,6 @@
         content.style.maxHeight = content.scrollHeight + "px";
         icon.style.transform = 'rotate(180deg)'; 
     }
-  }
-
-  // Init Cal.com
-  try {
-      Cal.ns.evaluacion("initRender", {
-          elementOrSelector: "#my-cal-inline",
-      });
-  } catch(e){
-      console.log("Error cargando calendario:", e);
   }
 </script>
 
