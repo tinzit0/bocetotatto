@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>HIPSO TATTOO | Professional Ink</title>
+    <meta name="description" content="Estudio de tatuajes y arte corporal en el centro de Concepción. Tucapel 391 Oficina A. Agenda tu hora online.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fuentes Rockeras y Profesionales -->
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Oswald:wght@400;700;900&family=Montserrat:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#030303',
+                        blood: '#b91c1c',
+                        bone: '#e5e5e5',
+                        ash: '#262626',
+                    },
+                    fontFamily: {
+                        metal: ['"Metal Mania"', 'cursive'],
+                        oswald: ['"Oswald"', 'sans-serif'],
+                        montserrat: ['"Montserrat"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base y Reseteo Brutalista */
+        body {
+            background-color: #030303;
+            color: #e5e5e5;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        ::selection { background: #b91c1c; color: #fff; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030303; }
+        ::-webkit-scrollbar-thumb { background: #262626; }
+        ::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
+
+        /* Textura de Ruido (Grunge profesional) */
+        .noise-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Botones de Acero/Sangre */
+        .btn-metal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 16px 32px;
+            border: 2px solid #e5e5e5;
+            color: #e5e5e5;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: transparent;
+        }
+        .btn-metal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0%; height: 100%;
+            background: #b91c1c;
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+        .btn-metal:hover {
+            border-color: #b91c1c;
+            color: #fff;
+        }
+        .btn-metal:hover::before { width: 100%; }
+
+        .btn-solid-blood {
+            background: #b91c1c;
+            color: #fff;
+            border: 2px solid #b91c1c;
+        }
+        .btn-solid-blood:hover {
+            background: transparent;
+            color: #b91c1c;
+        }
+
+        /* Efecto de borde cortado (Angulo) */
+        .cut-corner {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+        }
+
+        /* Navbar */
+        .navbar {
+            transition: background-color 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar.scrolled {
+            background-color: #030303;
+            border-bottom: 1px solid #262626;
+        }
+
+        /* Marquesina (Marquee) Rockera */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: #b91c1c;
+            color: #fff;
+            padding: 10px 0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-top: 2px solid #e5e5e5;
+            border-bottom: 2px solid #e5e5e5;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Acordeón Brutalista */
+        .faq-item {
+            border: 2px solid #262626;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: #b91c1c; }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        /* Imágenes en blanco y negro crudo */
+        .img-bw {
+            filter: grayscale(100%) contrast(120%) brightness(80%);
+            transition: filter 0.4s ease;
+        }
+        .img-bw:hover {
+            filter: grayscale(0%) contrast(110%) brightness(90%);
+        }
+    </style>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+      (function (C, A, L) {
+        let p = function (a, ar) { a.q.push(ar); };
+        let d = C.document;
+        C.Cal = C.Cal || function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.q) { cal.q = []; }
+          if (ar[0] === "init") {
+            let api = function () { p(api, arguments); };
+            let c = ar[1];
+            api.ns = {};
+            if (c) { cal.ns[c] = cal.ns[c] || api; }
+            return api;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "Cal");
+
+      Cal("init", "evaluacion", {origin:"https://cal.com"});
+      Cal.ns.evaluacion("ui", {"theme":"dark", "styles":{"body":{"background":"#030303"}}, "hideEventTypeDetails":false, "layout":"month_view"});
+    </script>
+</head>
+
+<body>
+<div class="noise-bg"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="navbar fixed top-0 w-full z-50 py-4">
+  <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <a href="#" class="flex items-center gap-3 group">
+      <h1 class="font-metal text-3xl text-bone group-hover:text-blood transition-colors m-0 tracking-widest">
+        HIPSO<span class="text-blood group-hover:text-bone">_TATTOO</span>
+      </h1>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 font-oswald text-lg font-bold tracking-widest uppercase">
+      <a href="#estudio" class="hover:text-blood transition-colors">Estudio</a>
+      <a href="#disciplinas" class="hover:text-blood transition-colors">Técnicas</a>
+      <a href="#preparacion" class="hover:text-blood transition-colors">Preparación</a>
+      <a href="#agendar" class="btn-metal !py-2 !px-6 !text-sm border-2">RESERVAR CITA</a>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button id="mobileBtn" class="md:hidden text-3xl text-bone focus:outline-none">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="fixed inset-0 bg-void z-40 hidden flex-col justify-center items-center gap-8 font-oswald text-4xl font-bold uppercase">
+    <a href="#estudio" class="hover:text-blood mobile-link">Estudio</a>
+    <a href="#disciplinas" class="hover:text-blood mobile-link">Técnicas</a>
+    <a href="#preparacion" class="hover:text-blood mobile-link">Preparación</a>
+    <a href="#agendar" class="hover:text-blood mobile-link">Reservar Cita</a>
+</div>
+
+<!-- HERO SECTION -->
+<header class="relative min-h-screen flex items-center pt-20 border-b-4 border-ash">
+  <div class="absolute inset-0 z-0">
+    <!-- Imagen de fondo oscura y contrastada -->
+    <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&w=1920&q=80" 
+         alt="Fondo Tatuaje" 
+         class="w-full h-full object-cover img-bw opacity-40">
+    <div class="absolute inset-0 bg-gradient-to-r from-void via-void/90 to-transparent"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
+    <div class="max-w-3xl">
+      <p class="font-mono text-blood font-bold tracking-[0.3em] mb-4 text-sm md:text-base uppercase">Concepción, Chile // Agenda Abierta</p>
+      
+      <!-- TÍTULO EN ESPAÑOL ACTUALIZADO -->
+      <h2 class="font-oswald text-6xl sm:text-8xl md:text-[8rem] font-black uppercase leading-[0.85] tracking-tighter mb-6 text-bone">
+        SANGRE <br>
+        <span class="text-transparent" style="-webkit-text-stroke: 2px #e5e5e5;">Y</span> <br>
+        TINTA
+      </h2>
+      
+      <p class="font-montserrat text-lg text-gray-400 font-medium mb-10 max-w-xl border-l-4 border-blood pl-4">
+        Estudio privado de arte corporal. Diseños de autor, higiene clínica y precisión milimétrica. Deja tu marca.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-6">
+        <a href="#agendar" class="btn-metal btn-solid-blood text-center">AGENDAR EVALUACIÓN</a>
+        <a href="#disciplinas" class="btn-metal text-center">VER TÉCNICAS</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE DIVIDER - TOTALMENTE RECTO -->
+<div class="marquee-container mt-8 shadow-[0_0_20px_rgba(185,28,28,0.3)]">
+    <div class="marquee-content">
+        // NO PAIN NO GAIN // ARTE EN PIEL // HIPSO TATTOO // CONCEPCIÓN CENTRO // DISEÑOS DE AUTOR // NO PAIN NO GAIN // ARTE EN PIEL // HIPSO TATTOO // CONCEPCIÓN CENTRO // DISEÑOS DE AUTOR // 
+    </div>
+</div>
+
+<main>
+
+  <!-- EL ESTUDIO -->
+  <section id="estudio" class="py-32 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-ash pb-6">
+        <div>
+            <h3 class="font-mono text-blood font-bold tracking-[0.2em] mb-2 uppercase">Filosofía</h3>
+            <h2 class="font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter">El Estudio</h2>
+        </div>
+        <p class="font-montserrat text-gray-400 max-w-sm text-right hidden md:block">
+            Tucapel 391 Of. A.<br>No somos comerciales, somos creadores.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group">
+            <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">01 // El Artista</h4>
+            <p class="text-gray-400 text-sm leading-relaxed font-medium">
+                Especialista en adaptar cada proyecto a la anatomía del cliente con manejo experto de múltiples disciplinas técnicas. Dedicación exclusiva.
+            </p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group">
+            <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">02 // Diversidad</h4>
+            <p class="text-gray-400 text-sm leading-relaxed font-medium">
+                Trabajamos proyectos Fine Line, Blackwork, Neotradicional, Escala de Grises, Geometría y Coberturas personalizadas. Sin límites creativos.
+            </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-ash/20 p-8 border-2 border-ash hover:border-blood transition-colors cut-corner group">
+            <h4 class="font-oswald text-3xl font-bold uppercase mb-4 text-bone group-hover:text-blood transition-colors">03 // Higiene</h4>
+            <p class="text-gray-400 text-sm leading-relaxed font-medium">
+                Atención dedicada con estándares higiénicos de nivel quirúrgico. Agujas estériles, material desechable, entregando seguridad en cada sesión.
+            </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉCNICAS / DISCIPLINAS -->
+  <section id="disciplinas" class="py-32 bg-ash/10">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter text-center mb-20">
+        Disciplinas
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border-2 border-ash">
+        <!-- Item -->
+        <div class="p-10 border-b-2 md:border-r-2 md:border-b-0 border-ash hover:bg-blood hover:text-void transition-colors group">
+            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Fine Line</h3>
+            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                Trazos finos de precisión, tipografía sutil y composiciones elegantes. Minimalismo llevado al límite.
+            </p>
+        </div>
+        
+        <!-- Item -->
+        <div class="p-10 border-b-2 border-ash hover:bg-blood hover:text-void transition-colors group">
+            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Blackwork</h3>
+            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                Alto contraste, sombreado suave escala de grises y bloques de tinta sólida. Impacto visual garantizado.
+            </p>
+        </div>
+
+        <!-- Item -->
+        <div class="p-10 border-b-2 md:border-b-0 md:border-r-2 border-ash hover:bg-blood hover:text-void transition-colors group">
+            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Neotradicional</h3>
+            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                Líneas de varios calibres, volumen e ilustración clásica reinventada. Fuerza y color saturado.
+            </p>
+        </div>
+
+        <!-- Item -->
+        <div class="p-10 hover:bg-blood hover:text-void transition-colors group">
+            <h3 class="font-metal text-4xl mb-4 group-hover:text-void">Cover-Ups</h3>
+            <p class="font-montserrat font-semibold group-hover:text-void/80 text-gray-400">
+                Cobertura de tatuajes antiguos y reestructuración gráfica. Renace tu piel con piezas definitivas.
+            </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREPARACIÓN (FAQ BRUTALISTA) -->
+  <section id="preparacion" class="py-32">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-5 gap-16">
+      
+      <div class="lg:col-span-2">
+        <h2 class="font-oswald text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 leading-none">
+          PREPÁRATE<br>
+          <span class="text-transparent" style="-webkit-text-stroke: 2px #b91c1c;">PARA LA AGUJA</span>
+        </h2>
+        <p class="font-montserrat text-gray-400 mb-8 border-l-4 border-blood pl-4">
+          Un buen tatuaje empieza antes de pisar el estudio. Sigue este protocolo para asegurar resultados impecables.
+        </p>
+      </div>
+
+      <div class="lg:col-span-3">
+        <!-- Acordeón 1 -->
+        <div class="faq-item bg-void">
+            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">01. DEFINIR ESTILO</span>
+                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+            </button>
+            <div class="faq-content px-6 bg-ash/10">
+                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                    Lo esencial es tener claro el estilo, más tener una idea de lo que quieres llevar a cabo. Puedes agendar una cita de diseño si no estás claro; ejemplos: escala de grises, minimalismo, full color, etc.
+                </p>
+            </div>
+        </div>
+
+        <!-- Acordeón 2 -->
+        <div class="faq-item bg-void">
+            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">02. DEFINIR DISEÑO</span>
+                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+            </button>
+            <div class="faq-content px-6 bg-ash/10">
+                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                    A mayor información que quieras entregar en la pieza, mayor podría ser el tamaño. Si tu idea no es tener un tatuaje gigante, la idea debe ser acotada para evitar que los detalles se pierdan con el tiempo.
+                </p>
+            </div>
+        </div>
+
+        <!-- Acordeón 3 -->
+        <div class="faq-item bg-void">
+            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">03. LAS SESIONES</span>
+                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+            </button>
+            <div class="faq-content px-6 bg-ash/10">
+                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                    Dependiendo del tamaño, hay piezas de una sola sesión. Proyectos grandes requieren coordinación (líneas primero, luego sombras o color). Ven descansado y bien alimentado.
+                </p>
+            </div>
+        </div>
+
+        <!-- Acordeón 4 -->
+        <div class="faq-item bg-void">
+            <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                <span class="font-oswald font-bold text-2xl uppercase tracking-wider">04. CUIDADOS POST</span>
+                <i class="fa-solid fa-plus text-blood text-xl transition-transform"></i>
+            </button>
+            <div class="faq-content px-6 bg-ash/10">
+                <p class="py-4 font-montserrat text-gray-400 text-sm font-medium">
+                    Tu tatuaje es una herida abierta. Lavado con jabón neutro, crema cicatrizante especializada y CERO sol o piscina. Te daremos las instrucciones detalladas al terminar.
+                </p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UBICACIÓN & RESERVA (Bloque final de impacto) -->
+  <section id="agendar" class="border-t-4 border-blood bg-ash/5">
+    <div class="grid grid-cols-1 lg:grid-cols-2">
+      
+      <!-- Mapa e Info -->
+      <div class="p-12 lg:p-24 flex flex-col justify-center border-b-2 lg:border-b-0 lg:border-r-2 border-ash">
+        <h2 class="font-oswald text-6xl font-black uppercase tracking-tighter mb-8">
+          EL <span class="text-blood">TERRITORIO</span>
+        </h2>
+        
+        <div class="mb-10 font-mono text-gray-400 space-y-4">
+            <p class="text-lg text-bone font-bold uppercase"><i class="fa-solid fa-location-crosshairs text-blood mr-2"></i> Tucapel 391, Oficina A</p>
+            <p>Concepción Centro, Biobío</p>
+            <hr class="border-ash my-4">
+            <p class="text-lg text-bone font-bold uppercase"><i class="fa-solid fa-clock text-blood mr-2"></i> Horario de Sangre</p>
+            <p>Lun - Vie: 11:00 a 19:30<br>Sábados: Previa cita</p>
+        </div>
+
+        <!-- Mapa Grayscale -->
+        <div class="w-full h-64 border-2 border-ash filter grayscale contrast-125 hover:grayscale-0 transition-all duration-500">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3193.858852309105!2d-73.050412!3d-36.827123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9669b5d2e742e4d9%3A0x8ad0419db6e8b233!2sTucapel%20391%2C%20Concepci%C3%B3n%2C%20B%C3%ADo%20B%C3%ADo!5e0!3m2!1ses!2scl!4v1716492000000!5m2!1ses!2scl"
+              title="Ubicación Hipso Tattoo"
+              class="w-full h-full border-0"
+              allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+      </div>
+
+      <!-- Cal.com Embed -->
+      <div class="p-4 lg:p-12 bg-void relative">
+         <div class="absolute inset-0 bg-blood/5 pointer-events-none"></div>
+         <h3 class="font-oswald text-3xl font-bold uppercase text-center mb-6 text-bone tracking-wider relative z-10">
+            Bloquea tu Sesión
+         </h3>
+         <!-- CAL.COM WIDGET -->
+         <div id="my-cal-inline" class="w-full h-[650px] relative z-10 border-2 border-ash" 
+              data-cal-link="martin-bustamante-y8o12p/30min" 
+              data-cal-namespace="evaluacion"
+              data-cal-config='{"layout":"month_view","theme":"dark"}'>
+         </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER MINIMALISTA BRUTAL -->
+<footer class="bg-void py-8 border-t-2 border-ash">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="font-metal text-3xl tracking-widest text-bone">HIPSO<span class="text-blood">_TATTOO</span></p>
+    <p class="font-mono text-xs text-gray-500 font-bold uppercase">© 2026 CONCEPCIÓN. NO FAKE SHIT.</p>
+  </div>
+</footer>
+
+<script>
+  // Navbar Background on Scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+  });
+
+  // Mobile Menu Toggle
+  const mobileBtn = document.getElementById('mobileBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  
+  function toggleMobileMenu() {
+      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('flex');
+      const icon = mobileBtn.querySelector('i');
+      if(mobileMenu.classList.contains('hidden')) {
+          icon.classList.replace('fa-xmark', 'fa-bars');
+      } else {
+          icon.classList.replace('fa-bars', 'fa-xmark');
+      }
+  }
+  
+  mobileBtn.addEventListener('click', toggleMobileMenu);
+  mobileLinks.forEach(link => link.addEventListener('click', toggleMobileMenu));
+
+  // Acordeón Function
+  function toggleFaq(btn) {
+    const content = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        icon.classList.replace('fa-minus', 'fa-plus');
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        icon.classList.replace('fa-plus', 'fa-minus');
+    }
+  }
+
+  // Init Cal.com
+  try {
+      Cal.ns.evaluacion("initRender", {
+          elementOrSelector: "#my-cal-inline",
+      });
+  } catch(e){
+      console.log("Error cargando calendario:", e);
+  }
+</script>
+
+</body>
+</html>
